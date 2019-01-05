@@ -1,0 +1,83 @@
+<html>
+<head>
+    
+    <title>
+        فروشگاه دارو
+    </title>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="/static/mycss.css">
+    <script src="/static/jquery.form.min.js"></script>
+   <script src="/static/jquery-3.2.1.min.js"></script>
+
+    <script>
+        
+        function change_header(a){
+        if (a=='ورود'){
+        document.getElementById("bld_texts").innerHTML=a;
+        document.getElementById("home").innerHTML="<center><form method='POST' action='/login'> <input id='header_button' type='text' placeholder='username' name='username'><br><input id='header_button' type='text' name='password' placeholder='password'><br><br><input id='header_button' class='submit' type='submit' value='ورود'></form></center>";
+        var contentToRemove = document.querySelectorAll("#drug_show");
+        $(contentToRemove).remove(); 
+    }
+    if (a=='خروج'){
+
+        window.location="/"
+    }
+        if(a=="پرداخت"){
+        document.getElementById("bld_texts").innerHTML=a;
+    }
+    if(a=='داروی جدید'){
+document.getElementById("bld_texts").innerHTML=a;
+document.getElementById("home").innerHTML="<center><form method='POST' action='/add_drug'> <input id='header_button' type='text' placeholder='نام دارو' name='durg_name'><input id='header_button' type='text' placeholder='قیمت' name='money'><input id='header_button' type='text' placeholder='تعداد' name='take_place'><br><textarea id='header_button' type='text' name='drug_details' placeholder='توضیحات'></textarea><br><br><input id='header_button' class='submit' type='submit' value='اضافه'></form></center>";
+var contentToRemove = document.querySelectorAll("#drug_show");
+        $(contentToRemove).remove(); 
+
+    }
+    if(a=='مشاهده خرید و ارسال'){
+        var contentToRemove = document.querySelectorAll("#drug_show");
+        $(contentToRemove).remove(); 
+        $(document).ready(function(){
+        $.post("/adminpanel/admin/get_buyed",
+        {
+        admin:"admin"
+        },
+        function(data,status){
+        document.getElementById("bld_texts").innerHTML=a;
+        document.getElementById("home").innerHTML=data;
+        });
+});
+}
+    } 
+</script>
+</head>
+<body id="back">
+<div id="header_div">
+<h1 id="bold_texts"> فروشگاه دارو</h1>
+<h3 id="bold_texts">پنل مدیریت</h3>
+{%if flag=="login"%}
+<p id="username">{{id[0]}} سلام </p>
+<p id="bld_texts">پنل کاربری</p>
+{%endif%}
+</div>
+<hr>
+<div>
+<center>
+
+<input id="header_button" type="button" value='مشاهده خرید و ارسال' onclick='change_header(value)'>
+<input id="header_button" type="button" value="داروی جدید" onclick='change_header(value)'>
+<input id="header_button" type="button" value="خروج" style="float:left" onclick="change_header(value)">
+</center>
+</div>
+<hr>
+
+<h1 id="bld_texts">
+    
+</h1>
+<div id="home">
+    <center>
+
+به ادمین پنل داروخانه خوش آمدید
+    </center>
+</div>
+
+</body>
+</html>

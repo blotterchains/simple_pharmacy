@@ -1,0 +1,194 @@
+<html>
+<head>
+    
+    <title>
+        فروشگاه دارو
+    </title>
+    <meta charset="utf-8">
+    <link type="text/css" rel="stylesheet" href="/static/mycss.css">
+    <script src="/static/jquery.form.min.js"></script>
+   <script src="/static/jquery-3.2.1.min.js"></script>
+
+    <script>
+        
+        function change_header(a){
+        if (a=='ورود'){
+        document.getElementById("bld_texts").innerHTML=a;
+        document.getElementById("home").innerHTML="<center><form method='POST' action='/login'> <input id='header_button' type='text' placeholder='username' name='username'><br><input id='header_button' type='text' name='password' placeholder='password'><br><br><input id='header_button' class='submit' type='submit' value='ورود'></form></center>";
+        var contentToRemove = document.querySelectorAll("#drug_show");
+        $(contentToRemove).remove(); 
+    }
+    if (a=='خروج'){
+
+        window.location="/"
+    }
+        if(a=="پرداخت"){
+        document.getElementById("bld_texts").innerHTML=a;
+        //{%if flag=='login'%}
+        document.getElementById("home").innerHTML="<center><form method='POST' action='/pardakht'><input id='header_button' type='text' hidden='hidden' name='user_id' value='{{id[3]}}'><br><input id='header_button' type='text' placeholder='نشانی' name='adres'><br><input id='header_button' type='text' name='name' placeholder='نام گیرنده'><br><input id='header_button' type='submit' value='اتصال به صفحه پرداخت'></form></center>";
+        //{%endif%}
+    }
+        if (a=='جستوجو دارو'){
+        document.getElementById("bld_texts").innerHTML=a;
+        
+        document.getElementById("home").innerHTML="<center><form method='POST' action='/signup'><input id='header_button' class='submit' type='submit' value='جستوجو'> <br><input id='header_button' class='submit' type='submit' value='جستوجو'></form></center>";
+        var contentToRemove = document.querySelectorAll("#drug_show");
+        $(contentToRemove).remove();
+        }
+        if (a=='سبد خرید'){
+        document.getElementById("bld_texts").innerHTML=a;
+        
+        $(document).ready(function(){
+        $.post("/kharid",
+        {
+        //{%if flag=="login"%}
+          id: "{{id[3]}}"
+          //{%endif%}
+        },
+        function(data,status){
+            data=data.replace("\\");
+            data=data.replace(/de'>/g,"de'> کد محصول<br>");
+            data=data.replace(/me'>/g,"me'> نام محصول<br>");
+            data=data.replace(/ih'>/g,"ih'>  :توضیحات<br>");
+            document.getElementById("home").innerHTML= data+'<input id="header_button" class="pardakht" type="button" value="پرداخت" onclick="change_header(value)"><br><br><br><br><br><br><br><br>';
+        });
+});
+        var contentToRemove = document.querySelectorAll("#drug_show");
+        $(contentToRemove).remove();
+        }
+        if (a=='ثبت نام'){
+        document.getElementById("bld_texts").innerHTML=a;
+        document.getElementById("home").innerHTML="<center><form id='form_request' method='POST' action='/signup'> <input name='username' id='header_button' type='text' placeholder='username'><br><input id='header_button' name='password' type='text' placeholder='password'><br><input id='header_button' type='text' placeholder='email' name='email'><br><br><input id='header_button' class='submit' type='submit' value='ثبت نام'></form></center>";
+        var contentToRemove = document.querySelectorAll("#drug_show");
+        $(contentToRemove).remove();
+    }
+        if (a=='خانه'){
+        document.getElementById("bld_texts").innerHTML=a;
+        
+        $(document).ready(function(){
+        $.post("/valid_drugs",
+        {
+            post:"home"
+        },
+        function(data,status){
+            document.getElementById("home").innerHTML= data;
+        });
+});        
+    }
+    if (a=='مشاهده محصولات'){
+        document.getElementById("bld_texts").innerHTML=a;
+        
+        $(document).ready(function(){
+        $.post("/valid_drugs",
+        {
+            post:"login"
+        },
+        function(data,status){
+            document.getElementById("home").innerHTML= data;
+        });
+});        
+    }
+    }
+function add_kharid(id){
+    $(document).ready(function(){
+        $.post("/add_kharid",
+        {
+        //{%if flag=="login"%}
+
+            user_id:"{{id[3]}}",
+        //{%endif%}
+
+            drug_id:id
+        },
+        function(data,status){
+            alert(data)
+            change_header("سبد خرید")
+        });
+});
+}
+function delete_kharid(id){
+    $(document).ready(function(){
+        $.post("/delete_kharid",
+        {
+        //{%if flag=="login"%}
+            user_id:"{{id[3]}}",
+            id:id
+            //{%endif%}
+        },
+        function(data,status){
+            alert(data)
+            change_header("سبد خرید")
+        });
+});
+} 
+
+    </script>
+</head>
+<body id="back">
+<div id="header_div">
+<h1 id="bold_texts"> فروشگاه دارو</h1>
+<h3 id="bold_texts">فروشگاه دارو با امکان خرید آنلاین</h3>
+{%if flag=="login"%}
+<p id="username">{{id[0]}} سلام </p>
+<p id="bld_texts">پنل کاربری</p>
+{%endif%}
+</div>
+<hr>
+<div>
+<center>
+<input id="header_button" type="button" value='جستوجو دارو' onclick='change_header(value)'>
+{%if flag=="login"%}
+<input id="header_button" type="button" value='سبد خرید' onclick='change_header(value)'>
+<input id="header_button" type="button" value="مشاهده محصولات" onclick='change_header(value)'>
+<input id="header_button" type="button" value="خروج" style="float:left" onclick="change_header(value)">
+{%else%}
+<input id="header_button" type="button" value='ثبت نام' onclick='change_header(value)'>
+<input id="header_button" type="button" value='ورود' onclick='change_header(value)'>
+<input id="header_button" type="button" value="خانه" onclick='change_header(value)'
+{%endif%}
+</center>
+</div>
+<hr>
+
+<h1 id="bld_texts">
+    
+</h1>
+<div id="home">
+{% if flag=="signup"%}
+    ثبت نام با موفقیت انجام شد
+    {%elif flag=="login"%}
+    {%for daru in drugs%}
+    
+    <div id="drug_show">
+    <p >کد محصول: {{daru[0]}}</p>
+    <p > {{daru[1]}} :نام محصول </p>
+    <p >تعداد: {{daru[2]}}</p>
+    <p >قیمت: {{daru[4]}} تومان</p>
+    <button id="header_button" onclick='add_kharid("{{daru[0]}}")' >اضافه نمودن به سبد خرید</button>
+</div>
+{%endfor%}
+{%elif flag=="admin_panel"%}
+<center>
+    <form method='POST' action='/adminpanel/admin'> 
+        <input id='header_button' type='text' placeholder='admin_user' name='admin_user'>
+        <br>
+        <input id='header_button' type='text' name='admin_password' placeholder='admin_password'>
+        <br>
+        <br>
+        <input id='header_button' class='submit' type='submit' value='پنل ادمین'>
+</form>
+</center>
+{%elif flag==""%}
+{%for daru in drugs%}
+    
+    <div id="drug_show">
+    <p >کد محصول {{daru[0]}}</p>
+    <p > {{daru[1]}} نام محصول </p>
+    <p >تعداد {{daru[2]}}</p>
+    <p >قیمت: {{daru[4]}} تومان</p>
+    <button id="header_button" value='ورود' onclick='change_header(value)' >برای خریدن لطفا وارد شوید</button>
+</div>
+{%endfor%}
+    {% endif%}
+</body>
+</html>

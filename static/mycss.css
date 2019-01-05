@@ -1,0 +1,81 @@
+#bold_texts{
+    font-family: "Persian";
+    font:bolder;
+    text-align: center;
+    color:rgb(9, 64, 128);
+
+}
+#bld_texts{
+    font-family: "Persian";
+    font:bolder;
+    color:rgb(255, 0, 0);
+    text-align: center;
+
+}
+#username{
+    font-family: "Persian";
+    font:bolder;
+    color:rgb(255, 0, 0);
+    text-align: center;
+
+}
+#back{
+
+    background-image: url("back.jpg")
+}
+#header_button{
+
+    background: #FFF;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius:5px;
+
+    color: #000;
+}
+#header_button:hover{
+    background: #000;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius:5px;
+
+    color:#FFF ;
+}
+#header_div{
+    background-image: url("header_image.jpg");
+    border-radius:5px;
+    padding-bottom: 5px;
+}
+.submit_padding{
+    float: left;
+}
+.pardakht{
+    position: absolute;
+bottom:   0;
+float:right;
+
+    
+}
+#search_button{
+    background: rgb(0, 255, 0);
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius:5px;
+
+    color:#000 ;
+}
+#drug_show{
+    background-color: aquamarine;
+    width: auto;
+    height: auto;
+    padding-left: 30px;
+    padding-right: 30px;
+    border-radius:5px;
+    float: left;
+    color: #000;
+    padding-bottom: 10px;
+    margin:5px;
+}
+#drug_show:hover{
+    background: #FFF;
+    color:rgb(0,0, 0) ;
+}
